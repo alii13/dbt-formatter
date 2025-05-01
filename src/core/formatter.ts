@@ -387,8 +387,15 @@ export default class Formatter {
   // Commas start a new line (unless within inline parentheses or SQL "LIMIT" clause)
   private formatComma = (node: Node<Token>, query: string) => {
     const token = node.item;
+    const prevNode = node.previous;
+  
+    // Ensure comment lines are preserved before inserting comma
+    if (prevNode && (prevNode.item.type === tokenTypes.LINE_COMMENT || prevNode.item.type === tokenTypes.BLOCK_COMMENT)) {
+      query = this.addNewline(query);
+    }
+  
     query = this.trimTrailingWhitespace(node, query) + token.value + ' ';
-
+  
     if (this.inlineBlock.isActive()) {
       return query;
     } else if (/^LIMIT$/i.test(this.previousReservedWord.value)) {
@@ -397,6 +404,8 @@ export default class Formatter {
       return this.addNewline(query);
     }
   };
+  
+  
 
   private formatOperator = (node: Node<Token>, query: string) => {
     const token = node.item;
