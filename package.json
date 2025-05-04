@@ -1,12 +1,13 @@
 {
-  "name": "dbt-formatter",
-  "version": "1.3.0",
-  "description": "DBT jinja/sql formatter",
+  "name": "@ali0113/dbt-formatter",
+  "version": "1.0.0",
+  "description": "DBT jinja/sql formatter with improved comment handling",
   "keywords": [
     "dbt",
     "formatter",
     "jinja",
-    "sql"
+    "sql",
+    "comments"
   ],
   "main": "dist/dbt-formatter.cjs.js",
   "module": "dist/dbt-formatter.esm.js",
@@ -14,15 +15,15 @@
   "files": [
     "dist"
   ],
-  "author": "Henri Blancke <blanckehenri@gmail.com>",
-"repository": {
-  "type": "git",
-  "url": "git+https://github.com/alii13/dbt-formatter.git"
-},
-"license": "MIT",
-"bugs": {
+  "author": "Original: Henri Blancke <blanckehenri@gmail.com>, Modified by Ali",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alii13/dbt-formatter.git"
+  },
+  "license": "MIT",
+  "bugs": {
   "url": "https://github.com/alii13/dbt-formatter/issues"
-},
+  },
 "homepage": "https://github.com/alii13/dbt-formatter#readme",
   "engines": {
     "node": ">=10.0.0"
@@ -31,6 +32,7 @@
     "test": "jest --coverage",
     "prebuild": "rimraf dist bin",
     "build": "npm run prebuild && rollup -c rollup.config.ts",
+    "prepare": "npm run build",
     "prepublishOnly": "npm run build",
     "package": "npm run prebuild && npm run build && pkg dist/cli/* --out-path bin --debug",
     "test:watch": "jest --coverage --watch",

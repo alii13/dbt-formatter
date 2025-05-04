@@ -2,16 +2,25 @@
 
 # DBT Formatter
 
-### Install
+A DBT jinja/sql formatter with improved comment handling, particularly fixing issues with comments followed by commas.
+
+## Install
 
 ```bash
-npm install -s dbt-formatter
+# Install from npm
+npm install -s @ali0113/dbt-formatter
+
+# Or with yarn
+yarn add @ali0113/dbt-formatter
+
+# Or with pnpm
+pnpm add @ali0113/dbt-formatter
 ```
 
-### Usage
+## Usage
 
 ```javascript
-import formatter from 'dbt-formatter';
+import formatter from '@ali0113/dbt-formatter';
 
 const mySql = "SELECT * FROM {{ ref('myTableRef') }}";
 const myOpts = { sql: 'default', indent: 2, upper: false };
@@ -28,7 +37,7 @@ FROM
   {{ ref('myTableRef') }}
 ```
 
-### Usage options
+## Usage options
 
 Fine tune `dbt-formatter` behavior with the following options:
 
@@ -41,15 +50,39 @@ Fine tune `dbt-formatter` behavior with the following options:
 | lowerWords     | `false`   | Lowercases all `words` as identified by the tokenizer                  |
 | allowCamelcase | `true`    | Allows column names to be camelcased                                   |
 
+## Improvements
+
+This fork improves the handling of comments in SQL, particularly fixing the following issues:
+
+- Fixed an issue where a comma following a line comment would be incorrectly merged with the comment text
+- Properly handles comments with varying line endings (CRLF vs LF)
+
+## Publishing to npm
+
+To publish this package to npm:
+
+1. Replace `@your-username` in package.json with your actual npm username
+2. Update repository URLs to point to your GitHub fork
+3. Build the package: `npm run build`
+4. Login to npm: `npm login`
+5. Publish the package: `npm publish --access public`
+
 ## Development
 
 ### NPM scripts
 
 - `npm test`: Run test suite
-- `npm start`: Run `npm run build` in watch mode
-- `npm run build`: Generate bundles and typings, create docs
+- `npm run build`: Generate bundles and typings
 - `npm run lint`: Lints code
 - `npm run package`: Package dbt-formatter as a binary
+
+## Credits
+
+This is a fork of [henriblancke/dbt-formatter](https://github.com/henriblancke/dbt-formatter) with improvements for comment handling.
+
+## License
+
+MIT
 
 ## Roadmap
 
