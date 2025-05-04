@@ -15,15 +15,15 @@
     "dist"
   ],
   "author": "Henri Blancke <blanckehenri@gmail.com>",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/henriblancke/dbt-formatter.git"
-  },
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/henriblancke/dbt-formatter/issues"
-  },
-  "homepage": "https://github.com/henriblancke/dbt-formatter#readme",
+"repository": {
+  "type": "git",
+  "url": "git+https://github.com/alii13/dbt-formatter.git"
+},
+"license": "MIT",
+"bugs": {
+  "url": "https://github.com/alii13/dbt-formatter/issues"
+},
+"homepage": "https://github.com/alii13/dbt-formatter#readme",
   "engines": {
     "node": ">=10.0.0"
   },
