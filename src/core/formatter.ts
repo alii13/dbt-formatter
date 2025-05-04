@@ -266,6 +266,17 @@ export default class Formatter {
 
   private formatLineComment = (node: Node<Token>, query: string) => {
     const token = node.item;
+    const nextNode = this.getNextNodeNonWhitespace(node);
+    
+    // Special handling for line comments followed by comma
+    // This fixes an issue where a comma following a line comment with \r\n endings
+    // would incorrectly be merged with the comment on a single line
+    if (nextNode && nextNode.item.value === ',') {
+      // Just add the comment without additional newlines
+      // The comma handler will handle the newline
+      return query + token.value;
+    }
+    
     return this.addNewline(query + token.value);
   };
 
@@ -387,13 +398,26 @@ export default class Formatter {
   // Commas start a new line (unless within inline parentheses or SQL "LIMIT" clause)
   private formatComma = (node: Node<Token>, query: string) => {
     const token = node.item;
-    const prevNode = node.previous;
-  
-    // Ensure comment lines are preserved before inserting comma
-    if (prevNode && (prevNode.item.type === tokenTypes.LINE_COMMENT || prevNode.item.type === tokenTypes.BLOCK_COMMENT)) {
-      query = this.addNewline(query);
+    const prevNode = this.getPreviousNodeNonWhitespace(node);
+    
+    // Check if the previous token is a line comment or block comment
+    const prevIsComment = prevNode && 
+      (prevNode.item.type === tokenTypes.LINE_COMMENT || prevNode.item.type === tokenTypes.BLOCK_COMMENT);
+    
+    // Special handling for comments followed by comma
+    // This ensures commas after comments are properly placed on a new line
+    // and not incorrectly merged with the comment text
+    if (prevIsComment) {
+      // Make sure we have a newline before adding the comma
+      if (!query.endsWith('\n')) {
+        query = this.addNewline(query);
+      }
+      
+      // Add the comma on its own line
+      return query + token.value + ' ' + (this.inlineBlock.isActive() || /^LIMIT$/i.test(this.previousReservedWord.value) ? '' : '\n' + this.indentation.getIndent());
     }
   
+    // Normal comma handling for other cases
     query = this.trimTrailingWhitespace(node, query) + token.value + ' ';
   
     if (this.inlineBlock.isActive()) {

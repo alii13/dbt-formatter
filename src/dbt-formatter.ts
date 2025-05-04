@@ -1,5 +1,5 @@
-import Tokenizer from '@core/tokenizer';
 import Formatter from '@core/formatter';
+import Tokenizer from '@core/tokenizer';
 import { Config, Options } from '@types';
 import { presets, formatters } from '@constants';
 
@@ -27,13 +27,17 @@ const getConfiguration = (opt: Options): Config => {
  * @return {String}
  */
 const format = (query: string, opt: Options = { sql: 'default', indent: 2 }): string => {
-  if (!formatters.includes(opt.sql)) {
-    throw Error(`Unsupported SQL dialect: ${opt.sql}`);
-  }
+  try {
+    if (!formatters.includes(opt.sql)) {
+      throw Error(`Unsupported SQL dialect: ${opt.sql}`);
+    }
 
-  const config = getConfiguration(opt);
-  const tokens = new Tokenizer(config).tokenize(query);
-  return new Formatter(opt).format(tokens);
+    const config = getConfiguration(opt);
+    const tokens = new Tokenizer(config).tokenize(query);
+    return new Formatter(opt).format(tokens);
+  } catch (err) {
+    return query;
+  }
 };
 
 export default format;

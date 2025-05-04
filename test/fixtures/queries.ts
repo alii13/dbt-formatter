@@ -375,3 +375,10 @@ export const dbtSnapshotSqlFormat = {
 {% endsnapshot %}
 `,
 };
+
+export const commentFollowedByComma = {
+  input: `--inner code block will handle incremental vs full refresh\r\n\r\n, grouped as`,
+  result: `-- inner code block will handle incremental vs full refresh,
+grouped as
+`,
+};
