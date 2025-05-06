@@ -1,6 +1,6 @@
 {
   "name": "@ali0113/dbt-formatter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "DBT jinja/sql formatter with improved comment handling",
   "keywords": [
     "dbt",
